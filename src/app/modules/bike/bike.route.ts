@@ -13,6 +13,13 @@ router.post(
   BikeControllers.createBike
 );
 
+router.put(
+  "/:id",
+  auth("admin"),
+  validateRequest(BikeValidations.updateBikeValidationSchema),
+  BikeControllers.updateBike
+);
+
 router.get("/", BikeControllers.getAllBike);
 
 export const BikeRoutes = router;
