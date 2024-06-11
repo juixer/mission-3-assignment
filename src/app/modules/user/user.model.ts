@@ -32,7 +32,7 @@ const userSchema = new Schema<IUser, UserModel>(
   },
   {
     timestamps: true,
-  }
+  } 
 );
 
 userSchema.statics.isUserExist = async function (email: string) {
