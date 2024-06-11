@@ -13,4 +13,6 @@ router.post(
   BikeControllers.createBike
 );
 
+router.get("/", BikeControllers.getAllBike);
+
 export const BikeRoutes = router;
