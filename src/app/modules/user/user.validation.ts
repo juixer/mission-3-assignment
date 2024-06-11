@@ -20,7 +20,15 @@ const createUserValidationSchema = z.object({
     role: z.enum(["admin", "user"]).optional().default("user"),
   }),
 });
+const updateUserValidationSchema = z.object({
+  body: z.object({
+    name: z.string().optional(),
+    phone: z.string().optional(),
+    address: z.string().optional(),
+  }),
+});
 
 export const UserValidation = {
   createUserValidationSchema,
+  updateUserValidationSchema
 };
