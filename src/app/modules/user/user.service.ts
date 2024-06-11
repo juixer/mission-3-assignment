@@ -11,3 +11,8 @@ const createUserIntoDB = async (payload: IUser) => {
   const result = User.create(payload);
   return result;
 };
+
+
+export const UserServices = {
+  createUserIntoDB
+}
