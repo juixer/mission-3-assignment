@@ -8,11 +8,10 @@ const createUserIntoDB = async (payload: IUser) => {
   if (user) {
     throw new AppError(httpStatus.BAD_REQUEST, "User already exists");
   }
-  const result = User.create(payload);
+  const result = await User.create(payload);
   return result;
 };
 
-
 export const UserServices = {
-  createUserIntoDB
-}
+  createUserIntoDB,
+};

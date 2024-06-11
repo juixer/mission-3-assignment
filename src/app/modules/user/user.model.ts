@@ -11,7 +11,6 @@ const userSchema = new Schema<IUser, UserModel>(
     email: {
       type: String,
       required: true,
-      unique: true,
     },
     password: {
       type: String,
@@ -36,6 +35,9 @@ const userSchema = new Schema<IUser, UserModel>(
   }
 );
 
+userSchema.statics.isUserExist = async function (email: string) {
+  return await User.findOne({ email });
+};
 userSchema.pre("save", async function (next) {
   const user = this;
   user.password = await bcrypt.hash(user.password, Number(config.bcrypt_salt));
@@ -46,9 +48,5 @@ userSchema.post("save", function (doc, next) {
   doc.password = "";
   next();
 });
-
-userSchema.statics.isUserExist = async function (email: string) {
-  return await User.findOne({ email });
-};
 
 export const User = model<IUser, UserModel>("User", userSchema);

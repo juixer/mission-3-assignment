@@ -8,16 +8,15 @@ const handleDuplicateError = (err: any): TGenericErrorResponse => {
 
   const errorSources: TErrorSources = [
     {
-      path: "",
+      path: '',
       message: `${extracted_message} is already exists`,
     },
   ];
   const statusCode = 400;
   return {
     statusCode,
-    message: "Duplicate error",
+    message: 'Duplicate error',
     errorSources,
   };
 };
-
 export default handleDuplicateError;

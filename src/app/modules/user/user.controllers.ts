@@ -4,8 +4,7 @@ import sendResponse from "../../utils/sendResponse";
 import { UserServices } from "./user.service";
 
 const createUser = catchAsync(async (req, res) => {
-  const result = UserServices.createUserIntoDB(req.body);
-
+  const result = await UserServices.createUserIntoDB(req.body);
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -14,6 +13,6 @@ const createUser = catchAsync(async (req, res) => {
   });
 });
 
-export const UserControllers = {
+export const UserController = {
   createUser,
 };
