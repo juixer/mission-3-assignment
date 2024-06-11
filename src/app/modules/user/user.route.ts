@@ -1,10 +1,8 @@
 import express from "express";
-import validateRequest from "../../middleware/validateRequest";
-import { UserValidation } from "./user.validation";
 import { UserController } from "./user.controllers";
 
 const router = express.Router();
 
-
+router.get("/me", UserController.getProfile);
 
 export const UserRoutes = router;

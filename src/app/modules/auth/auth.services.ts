@@ -2,7 +2,7 @@ import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import { User } from "../user/user.model";
 import { IUser } from "../user/user.interface";
-import { ILogin } from "./auth.inteface";
+import { ILogin } from "./auth.interface";
 import { createToken } from "./auth.utils";
 import config from "../../config";
 
