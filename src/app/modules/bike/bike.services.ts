@@ -24,8 +24,20 @@ const updateBikeIntoDB = async (id: string, payload: Partial<IBike>) => {
   return result;
 };
 
+const deleteBikeFromDB = async (id: string) => {
+  const isBikeExist = await Bike.isBikeExists(id);
+
+  if (!isBikeExist) {
+    throw new AppError(httpStatus.NOT_FOUND, "Bike does not exist");
+  }
+
+  const result = await Bike.findByIdAndDelete(id);
+  return result;
+};
+
 export const BikeServices = {
   createBikeIntoDB,
   getAllBikeFromDB,
   updateBikeIntoDB,
+  deleteBikeFromDB,
 };
