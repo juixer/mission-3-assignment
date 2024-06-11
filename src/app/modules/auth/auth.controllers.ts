@@ -13,6 +13,18 @@ const createUser = catchAsync(async (req, res) => {
   });
 });
 
+const logIn = catchAsync(async (req, res) => {
+  const result = await AuthServices.loginUser(req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "User logged in successfully",
+    token: "JWT token",
+    data: result,
+  });
+});
+
 export const AuthControllers = {
   createUser,
+  logIn,
 };

@@ -32,12 +32,20 @@ const userSchema = new Schema<IUser, UserModel>(
   },
   {
     timestamps: true,
-  } 
+  }
 );
 
 userSchema.statics.isUserExist = async function (email: string) {
-  return await User.findOne({ email });
+  return await User.findOne({ email }).select("+password");
 };
+
+userSchema.statics.isPasswordMatch = async function (
+  plainTextPassword: string,
+  hashedPassword: string
+) {
+  return await bcrypt.compare(plainTextPassword, hashedPassword);
+};
+
 userSchema.pre("save", async function (next) {
   const user = this;
   user.password = await bcrypt.hash(user.password, Number(config.bcrypt_salt));
