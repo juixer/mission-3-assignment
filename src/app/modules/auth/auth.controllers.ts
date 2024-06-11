@@ -19,11 +19,6 @@ const logIn = catchAsync(async (req, res) => {
 
   const { userData, accessToken } = result;
 
-  res.cookie("accessToken", accessToken, {
-    secure: config.node_env === "production",
-    httpOnly: true,
-  });
-  
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
