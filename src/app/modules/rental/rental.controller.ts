@@ -37,9 +37,9 @@ const getAllRentals = catchAsync(async (req, res) => {
 
   const result = await RentalServices.getAllRentalsOfUsers(token as string);
   sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: "Rentals retrieved successfully",
+    statusCode: !result.length ? httpStatus.NOT_FOUND : httpStatus.OK,
+    success: !result.length ? false : true,
+    message: !result.length ? "No Data Found" : "Rentals retrieved successfully",
     data: result,
   });
 });
