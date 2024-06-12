@@ -1,4 +1,4 @@
-import { Model, Types } from "mongoose";
+import { Types } from "mongoose";
 
 // rental interface
 export interface IRental {

@@ -1,8 +1,7 @@
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import { IRental } from "./rental.interface";
-import jwt, { JwtPayload } from "jsonwebtoken";
-import config from "../../config";
+import { JwtPayload } from "jsonwebtoken";
 import { User } from "../user/user.model";
 import { Rental } from "./rental.model";
 import { Bike } from "../bike/bike.model";

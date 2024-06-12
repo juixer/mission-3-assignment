@@ -1,10 +1,8 @@
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
-import jwt, { JwtPayload } from "jsonwebtoken";
-import config from "../../config";
+import { JwtPayload } from "jsonwebtoken";
 import { User } from "./user.model";
 import { IUser } from "./user.interface";
-import { string } from "zod";
 const getProfileFromDB = async (token: JwtPayload) => {
   // destructuring email from the token
   const { email } = token;
