@@ -18,7 +18,7 @@ app.use((0, cookie_parser_1.default)());
 app.use("/api", route_1.default);
 // default route
 app.get("/", (req, res) => {
-    res.send("Hello World!");
+    res.send("Welcome to Bike Breeze server!");
 });
 // global error handler
 app.use(globalErrHandler_1.default);

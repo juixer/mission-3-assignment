@@ -17,7 +17,7 @@ app.use("/api", router);
 
 // default route
 app.get("/", (req: Request, res: Response) => {
-  res.send("Hello World!");
+  res.send("Welcome to Bike Breeze server!");
 });
 
 // global error handler
