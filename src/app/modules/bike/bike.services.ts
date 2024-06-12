@@ -9,7 +9,7 @@ const createBikeIntoDB = async (payload: IBike) => {
 };
 
 const getAllBikeFromDB = async () => {
-  const result = await Bike.find();
+  const result = await Bike.find().sort({ createdAt: -1 });
   return result;
 };
 

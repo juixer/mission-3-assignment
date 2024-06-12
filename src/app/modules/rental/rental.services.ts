@@ -103,7 +103,8 @@ const getAllRentalsOfUsers = async (token: string) => {
 
   const result = await Rental.find({ userId: user?._id })
     .populate("userId")
-    .populate("bikeId");
+    .populate("bikeId")
+    .sort({ updatedAt: -1 });
 
   return result;
 };
