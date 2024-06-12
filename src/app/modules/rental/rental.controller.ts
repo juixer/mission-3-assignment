@@ -31,7 +31,21 @@ const returnBike = catchAsync(async (req, res) => {
   });
 });
 
+const getAllRentals = catchAsync(async (req, res) => {
+  const tokenHeader = req.headers.authorization;
+  const token = tokenHeader?.split(" ")[1];
+
+  const result = await RentalServices.getAllRentalsOfUsers(token as string);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Rentals retrieved successfully",
+    data: result,
+  });
+});
+
 export const RentalControllers = {
   createRental,
   returnBike,
+  getAllRentals
 };

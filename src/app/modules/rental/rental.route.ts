@@ -15,4 +15,6 @@ router.post(
 
 router.put("/:id/return", auth("admin"), RentalControllers.returnBike);
 
+router.get("/", auth("admin", "user"), RentalControllers.getAllRentals);
+
 export const RentalRoutes = router;

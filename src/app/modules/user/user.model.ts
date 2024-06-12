@@ -36,6 +36,19 @@ const userSchema = new Schema<IUser, UserModel>(
   }
 );
 
+userSchema.pre("save", async function (next) {
+  const user = this;
+  user.password = await bcrypt.hash(user.password, Number(config.bcrypt_salt));
+  next();
+});
+
+userSchema.post("save", function (doc, next) {
+  doc.password = "";
+  doc.isSelected('password')
+  next();
+});
+
+
 userSchema.statics.isUserExist = async function (email: string) {
   return await User.findOne({ email }).select("+password");
 };
@@ -47,15 +60,5 @@ userSchema.statics.isPasswordMatch = async function (
   return await bcrypt.compare(plainTextPassword, hashedPassword);
 };
 
-userSchema.pre("save", async function (next) {
-  const user = this;
-  user.password = await bcrypt.hash(user.password, Number(config.bcrypt_salt));
-  next();
-});
-
-userSchema.post("save", function (doc, next) {
-  doc.password = "";
-  next();
-});
 
 export const User = model<IUser, UserModel>("User", userSchema);

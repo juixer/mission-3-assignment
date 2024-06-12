@@ -56,8 +56,8 @@ const createRentalIntoDB = async (token: string, payload: IRental) => {
 const returnBikeWhichUpdateDB = async (id: string) => {
   const rental = await Rental.findById(id);
 
-  if(rental?.isReturned) {
-    throw new AppError(httpStatus.BAD_REQUEST, "Bike already returned")
+  if (rental?.isReturned) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Bike already returned");
   }
 
   const bike = await Bike.findById(rental?.bikeId);
@@ -85,7 +85,30 @@ const returnBikeWhichUpdateDB = async (id: string) => {
   return result;
 };
 
+const getAllRentalsOfUsers = async (token: string) => {
+  if (!token) {
+    throw new AppError(
+      httpStatus.FORBIDDEN,
+      "You have no access to this route"
+    );
+  }
+
+  const decoded = jwt.verify(
+    token,
+    config.jwt_access_secret as string
+  ) as JwtPayload;
+
+  const { email } = decoded;
+  const user = await User.findOne({ email });
+
+  const result = await Rental.find({ userId: user?._id })
+    .populate("userId")
+    .populate("bikeId");
+  return result;
+};
+
 export const RentalServices = {
   createRentalIntoDB,
   returnBikeWhichUpdateDB,
+  getAllRentalsOfUsers,
 };
