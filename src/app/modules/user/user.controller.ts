@@ -4,10 +4,10 @@ import { UserServices } from "./user.service";
 import sendResponse from "../../utils/sendResponse";
 
 const getProfile = catchAsync(async (req, res) => {
-  const tokenHeaders = req.headers.authorization;
+  // getting user profile information from database
+  const result = await UserServices.getProfileFromDB(req.user);
 
-  const token = tokenHeaders?.split(" ")[1];
-  const result = await UserServices.getProfileFromDB(token as string);
+  // sending response
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -17,13 +17,10 @@ const getProfile = catchAsync(async (req, res) => {
 });
 
 const updateProfile = catchAsync(async (req, res) => {
-  const tokenHeaders = req.headers.authorization;
+  // updating user profile information into database
+  const result = await UserServices.updateProfileIntoDB(req.user, req.body);
 
-  const token = tokenHeaders?.split(" ")[1];
-  const result = await UserServices.updateProfileIntoDB(
-    token as string,
-    req.body
-  );
+  // sending response
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

@@ -4,7 +4,10 @@ import sendResponse from "../../utils/sendResponse";
 import { BikeServices } from "./bike.services";
 
 const createBike = catchAsync(async (req, res) => {
+  // creating a new bike into DB
   const result = await BikeServices.createBikeIntoDB(req.body);
+
+  // Sending response
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -14,8 +17,12 @@ const createBike = catchAsync(async (req, res) => {
 });
 
 const getAllBike = catchAsync(async (req, res) => {
+  // retrieving all bikes from DB
   const result = await BikeServices.getAllBikeFromDB();
+
+  // sending response
   sendResponse(res, {
+    // if there is no data in DB then show no data message and if there is data it will show data
     statusCode: !result.length ? httpStatus.NOT_FOUND : httpStatus.OK,
     success: !result.length ? false : true,
     message: !result.length ? "No Data Found" : "Bikes retrieved successfully",
@@ -24,9 +31,13 @@ const getAllBike = catchAsync(async (req, res) => {
 });
 
 const updateBike = catchAsync(async (req, res) => {
+  // destructuring id from request params
   const { id } = req.params;
+
+  // updating bike information into DB
   const result = await BikeServices.updateBikeIntoDB(id, req.body);
 
+  // sending response
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -36,8 +47,13 @@ const updateBike = catchAsync(async (req, res) => {
 });
 
 const deleteBike = catchAsync(async (req, res) => {
+  // destructuring id from request params
   const { id } = req.params;
+
+  // deleting the bike from DB
   const result = await BikeServices.deleteBikeFromDB(id);
+
+  // sending response
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -45,6 +61,7 @@ const deleteBike = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
 export const BikeControllers = {
   createBike,
   getAllBike,

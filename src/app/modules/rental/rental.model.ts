@@ -1,7 +1,8 @@
 import { model, Schema } from "mongoose";
-import { IRental, RentalModel } from "./rental.interface";
+import { IRental } from "./rental.interface";
 
-const rentalSchema = new Schema<IRental, RentalModel>(
+// rental Schema
+const rentalSchema = new Schema<IRental>(
   {
     userId: {
       type: Schema.Types.ObjectId,
@@ -35,4 +36,5 @@ const rentalSchema = new Schema<IRental, RentalModel>(
   }
 );
 
-export const Rental = model<IRental, RentalModel>("Rental", rentalSchema);
+// Rental mongoose model
+export const Rental = model<IRental>("Rental", rentalSchema);

@@ -25,6 +25,7 @@ const moduleRoutes = [
   },
 ];
 
+// using forEach loop to get moduleRoutes path and router
 moduleRoutes.forEach((route) => router.use(route.path, route.router));
 
 export default router;

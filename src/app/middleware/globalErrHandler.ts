@@ -22,27 +22,33 @@ const globalErrHandler: ErrorRequestHandler = (err, req, res, next) => {
     },
   ];
 
+ 
   if (err instanceof ZodError) {
+     // zod error 
     const simplifiedError = handleZodError(err);
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorMessages = simplifiedError.errorMessages;
   } else if (err?.name === "ValidationError") {
+    // mongoose validation error
     const simplifiedError = handleValidationError(err);
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorMessages = simplifiedError.errorMessages;
   } else if (err?.name === "CastError") {
+    // mongoose cast error
     const simplifiedError = handelCastError(err);
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorMessages = simplifiedError.errorMessages;
   } else if (err?.code === 11000) {
+    // mongoose duplicate id error
     const simplifiedError = handleDuplicateError(err);
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorMessages = simplifiedError.errorMessages;
   } else if (err instanceof AppError) {
+    // AppError
     statusCode = err?.statusCode;
     message = err?.message;
     errorMessages = [
@@ -52,6 +58,7 @@ const globalErrHandler: ErrorRequestHandler = (err, req, res, next) => {
       },
     ];
   } else if (err instanceof Error) {
+    // Default Error
     message = err?.message;
     errorMessages = [
       {

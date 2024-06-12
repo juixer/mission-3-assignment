@@ -6,7 +6,10 @@ import auth from "../../middleware/auth";
 
 const router = express.Router();
 
+// get profile information
 router.get("/me", auth("admin", "user"), UserController.getProfile);
+
+// update profile information
 router.put(
   "/me",
   auth("admin", "user"),

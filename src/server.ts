@@ -18,6 +18,7 @@ async function main() {
 
 main();
 
+// if there is unhandledRejection server will shutting down
 process.on("unhandledRejection", () => {
   console.log(`🫡 unhandledRejection is detected, shutting down the server`);
   if (server) {
@@ -28,6 +29,7 @@ process.on("unhandledRejection", () => {
   process.exit(1);
 });
 
+// if there is uncaughtException server will shutting down
 process.on("uncaughtException", () => {
   console.log(`🫡 uncaughtException is detected, shutting down the server`);
   process.exit(1);

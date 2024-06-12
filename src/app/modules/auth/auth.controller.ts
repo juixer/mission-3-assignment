@@ -4,7 +4,10 @@ import sendResponse from "../../utils/sendResponse";
 import { AuthServices } from "./auth.services";
 
 const createUser = catchAsync(async (req, res) => {
+  // creating a new user
   const result = await AuthServices.createUserIntoDB(req.body);
+
+  // sending response
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,
@@ -14,10 +17,13 @@ const createUser = catchAsync(async (req, res) => {
 });
 
 const logIn = catchAsync(async (req, res) => {
+  // logging in a user
   const result = await AuthServices.loginUser(req.body);
 
+  // destructuring the user and token from return
   const { userData, accessToken } = result;
 
+  // sending response
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

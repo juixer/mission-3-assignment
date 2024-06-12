@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+// creating rental zod validation
 const createRentalValidationSchema = z.object({
   body: z.object({
     userId: z.string().optional(),

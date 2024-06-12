@@ -1,5 +1,6 @@
 import { Model, Types } from "mongoose";
 
+// rental interface
 export interface IRental {
   userId: Types.ObjectId;
   bikeId: Types.ObjectId;
@@ -7,8 +8,4 @@ export interface IRental {
   returnTime: Date;
   totalCost: number;
   isReturned: boolean;
-}
-
-export interface RentalModel extends Model<IRental> {
-  isRentalExists(id: string): Promise<IRental>;
 }

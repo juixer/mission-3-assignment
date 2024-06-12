@@ -1,4 +1,6 @@
 import { z } from "zod";
+
+// creating user zod validation
 const createUserValidationSchema = z.object({
   body: z.object({
     name: z
@@ -20,6 +22,8 @@ const createUserValidationSchema = z.object({
     role: z.enum(["admin", "user"]).optional().default("user"),
   }),
 });
+
+// updating user zod validation
 const updateUserValidationSchema = z.object({
   body: z.object({
     name: z.string().optional(),

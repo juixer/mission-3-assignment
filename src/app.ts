@@ -15,11 +15,15 @@ app.use(cookieParser());
 // application routes
 app.use("/api", router);
 
+// default route
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
 
+// global error handler
 app.use(globalErrHandler);
+
+// not found route handler
 app.use(notFound);
 
 export default app;

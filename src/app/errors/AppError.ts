@@ -1,4 +1,5 @@
 class AppError extends Error {
+  
   constructor(public statusCode: number, message: string, stack = "") {
     super(message);
 

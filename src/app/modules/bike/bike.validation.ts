@@ -1,4 +1,6 @@
 import { z } from "zod";
+
+// creating bike zod validation
 const createBikeValidationSchema = z.object({
   body: z.object({
     name: z
@@ -20,6 +22,7 @@ const createBikeValidationSchema = z.object({
   }),
 });
 
+// updating bike zod validation
 const updateBikeValidationSchema = z.object({
   body: z.object({
     name: z.string().optional(),

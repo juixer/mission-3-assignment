@@ -5,54 +5,39 @@ import config from "../../config";
 import { User } from "./user.model";
 import { IUser } from "./user.interface";
 import { string } from "zod";
-const getProfileFromDB = async (token: string) => {
-  if (!token) {
-    throw new AppError(
-      httpStatus.FORBIDDEN,
-      "You are not authorized to access this"
-    );
-  }
+const getProfileFromDB = async (token: JwtPayload) => {
+  // destructuring email from the token
+  const { email } = token;
 
-  const decoded = jwt.verify(
-    token,
-    config.jwt_access_secret as string
-  ) as JwtPayload;
-
-  const { email } = decoded;
-
+  // finding the profile from DB
   const result = await User.findOne({ email });
   return result;
 };
 
-const updateProfileIntoDB = async (token: string, body: Partial<IUser>) => {
-  if (!token) {
-    throw new AppError(
-      httpStatus.FORBIDDEN,
-      "You have no access to this route"
-    );
-  }
+const updateProfileIntoDB = async (token: JwtPayload, body: Partial<IUser>) => {
+  // destructuring email from the token
+  const { email } = token;
 
-  const decoded = jwt.verify(
-    token,
-    config.jwt_access_secret as string
-  ) as JwtPayload;
-
-  const { email } = decoded;
-
+  // destructuring name, phone, address, password, role from the body
   const { name, phone, address, password, role } = body;
 
+  // user can not update password
   if (password) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
       "You can only update name, phone, address fields"
     );
   }
+
+  // user can not update role
   if (role) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
       "You can only update name, phone, address fields"
     );
   }
+
+  // user can not update email
   if (body.email) {
     throw new AppError(
       httpStatus.BAD_REQUEST,
@@ -60,6 +45,7 @@ const updateProfileIntoDB = async (token: string, body: Partial<IUser>) => {
     );
   }
 
+  // finding the profile from DB and updating the name, phone, address fields
   const result = await User.findOneAndUpdate(
     { email },
     {
