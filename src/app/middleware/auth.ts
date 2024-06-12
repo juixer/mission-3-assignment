@@ -8,10 +8,15 @@ import { User } from "../modules/user/user.model";
 
 const auth = (...requiredRoles: TRole[]) => {
   return catchAsync(async (req, res, next) => {
-    const token = req.headers.authorization;
+    const tokenHeaders = req.headers.authorization;
+
+    const token = tokenHeaders?.split(" ")[1];
 
     if (!token) {
-      throw new AppError(httpStatus.UNAUTHORIZED, "You have no access to this route");
+      throw new AppError(
+        httpStatus.UNAUTHORIZED,
+        "You have no access to this route"
+      );
     }
 
     const decoded = jwt.verify(
@@ -28,7 +33,10 @@ const auth = (...requiredRoles: TRole[]) => {
     }
 
     if (requiredRoles && !requiredRoles.includes(role)) {
-      throw new AppError(httpStatus.UNAUTHORIZED, "You have no access to this route");
+      throw new AppError(
+        httpStatus.UNAUTHORIZED,
+        "You have no access to this route"
+      );
     }
 
     req.user = decoded as JwtPayload;

@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Types } from "mongoose";
 import { BikeModel, IBike } from "./bike.interface";
 
 const bikeSchema = new Schema<IBike, BikeModel>(
@@ -41,7 +41,9 @@ const bikeSchema = new Schema<IBike, BikeModel>(
   }
 );
 
-bikeSchema.statics.isBikeExists = async function (_id: string) {
+bikeSchema.statics.isBikeExists = async function (
+  _id: string | Types.ObjectId
+) {
   return await Bike.findById({ _id });
 };
 

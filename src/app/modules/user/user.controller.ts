@@ -4,7 +4,9 @@ import { UserServices } from "./user.service";
 import sendResponse from "../../utils/sendResponse";
 
 const getProfile = catchAsync(async (req, res) => {
-  const token = req.headers.authorization;
+  const tokenHeaders = req.headers.authorization;
+
+  const token = tokenHeaders?.split(" ")[1];
   const result = await UserServices.getProfileFromDB(token as string);
   sendResponse(res, {
     statusCode: httpStatus.OK,
@@ -15,7 +17,9 @@ const getProfile = catchAsync(async (req, res) => {
 });
 
 const updateProfile = catchAsync(async (req, res) => {
-  const token = req.headers.authorization;
+  const tokenHeaders = req.headers.authorization;
+
+  const token = tokenHeaders?.split(" ")[1];
   const result = await UserServices.updateProfileIntoDB(
     token as string,
     req.body

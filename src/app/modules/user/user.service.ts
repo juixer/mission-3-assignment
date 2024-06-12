@@ -27,7 +27,7 @@ const updateProfileIntoDB = async (token: string, body: Partial<IUser>) => {
   if (!token) {
     throw new AppError(
       httpStatus.FORBIDDEN,
-      "You are not authorized to access this"
+      "You have no access to this route"
     );
   }
 

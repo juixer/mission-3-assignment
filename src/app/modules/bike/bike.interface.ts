@@ -1,4 +1,4 @@
-import { Model } from "mongoose";
+import { Model, Types } from "mongoose";
 
 export interface IBike {
   name: string;
@@ -12,5 +12,5 @@ export interface IBike {
 }
 
 export interface BikeModel extends Model<IBike> {
-  isBikeExists(_id: string): Promise<IBike>;
+  isBikeExists(_id: string | Types.ObjectId): Promise<IBike>;
 }

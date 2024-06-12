@@ -22,6 +22,6 @@ router.put(
 
 router.delete("/:id", auth("admin"), BikeControllers.deleteBike);
 
-router.get("/", BikeControllers.getAllBike);
+router.get("/", auth("admin", "user"), BikeControllers.getAllBike);
 
 export const BikeRoutes = router;
