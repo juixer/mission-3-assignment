@@ -57,10 +57,14 @@ To run this project, you will need to add the following environment variables to
 `BCRYPT_SALT`
 `JWT_ACCESS_SECRET`
 `JWT_ACCESS_EXPIRES_IN`
+`STORE_ID`
+`SIGNATURE_KEY`
+`PAYMENT_URL`
+`PAYMENT_VERIFY_URL`
 
 ## Tech Stack
 
-**Server:** Node.js, Express.js, MongoDB, Mongoose, JWT for authentication, Bcrypt for password hashing, Zod for schema validation
+**Server:** Node.js, Express.js, MongoDB, Mongoose, JWT for authentication, Bcrypt for password hashing, Zod for schema validation, axios for payment methods
 
 ## Tools:
 
