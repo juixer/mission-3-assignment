@@ -19,6 +19,7 @@ const createBikeValidationSchema = z.object({
     brand: z
       .string({ required_error: "Brand is required" })
       .min(1, "Enter Bike brand"),
+    image: z.string({ required_error: "image is required" }),
   }),
 });
 

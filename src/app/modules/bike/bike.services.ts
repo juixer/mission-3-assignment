@@ -9,9 +9,40 @@ const createBikeIntoDB = async (payload: IBike) => {
   return result;
 };
 
-const getAllBikeFromDB = async () => {
-  // getting all bike from DB and storing them which created recently
-  const result = await Bike.find().sort({ createdAt: -1 });
+const getAllBikeFromDB = async (query: Record<string, unknown>) => {
+  const { name, brand } = query;
+  const bQuery: Record<string, unknown> = {};
+
+  if (name) {
+    bQuery.name = { $regex: new RegExp(name as string, "i") };
+  }
+  if (brand) {
+    bQuery.brand = { $regex: new RegExp(brand as string, "i") };
+  }
+  // finding all users from DB and sort them by createdAt field in ascending order
+  const result = await Bike.find(bQuery);
+  return result;
+};
+
+const getMostRentedBikeFromDB = async () => {
+  // creating bike into DB
+  const result = await Bike.find({ isAvailable: true })
+    .sort({ rented: -1 })
+    .limit(6);
+  return result;
+};
+
+const getSingleBikeFromDB = async (id: string) => {
+  // checking if bike exist
+  const isBikeExist = await Bike.isBikeExists(id);
+
+  // if bike does not exist then throw error
+  if (!isBikeExist) {
+    throw new AppError(httpStatus.NOT_FOUND, "Bike does not exist");
+  }
+
+  // updating bike information into DB
+  const result = await Bike.findById(id);
   return result;
 };
 
@@ -43,9 +74,47 @@ const deleteBikeFromDB = async (id: string) => {
   return result;
 };
 
+const getBikeBrandFromDB = async () => {
+  const result = Bike.find({}, { brand: 1, name: 1, _id: -1 });
+  return result;
+};
+
+const searchTermBike = async (query: Record<string,unknown>) => {
+  const { searchTerm } = query;
+  const bQuery: Record<string, unknown> = { isAvailable: true };
+  if (searchTerm) {
+    bQuery.$or = [
+      { name: { $regex: new RegExp(searchTerm as string, "i") } },
+      { brand: { $regex: new RegExp(searchTerm as string, "i") } },
+    ];
+  }
+  const result = await Bike.find(bQuery);
+  return result;
+};
+
+const getAvailableBikesFromDB = async (query: Record<string, unknown>) => {
+  const { name, brand } = query;
+  const bQuery: Record<string, unknown> = { isAvailable: true };
+
+  if (name) {
+    bQuery.name = { $regex: new RegExp(name as string, "i") };
+  }
+  if (brand) {
+    bQuery.brand = { $regex: new RegExp(brand as string, "i") };
+  }
+
+  const result = await Bike.find(bQuery);
+  return result;
+};
+
 export const BikeServices = {
   createBikeIntoDB,
   getAllBikeFromDB,
   updateBikeIntoDB,
   deleteBikeFromDB,
+  getBikeBrandFromDB,
+  getSingleBikeFromDB,
+  getAvailableBikesFromDB,
+  getMostRentedBikeFromDB,
+  searchTermBike
 };

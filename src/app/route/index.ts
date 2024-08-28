@@ -3,6 +3,9 @@ import { UserRoutes } from "../modules/user/user.route";
 import { AuthRoutes } from "../modules/auth/auth.route";
 import { BikeRoutes } from "../modules/bike/bike.route";
 import { RentalRoutes } from "../modules/rental/rental.route";
+import { paymentRoutes } from "../modules/payment/payment.route";
+import { reviewRoutes } from "../modules/Review/review.route";
+import { couponRoutes } from "../modules/coupon/coupon.routes";
 
 const router = Router();
 
@@ -22,6 +25,18 @@ const moduleRoutes = [
   {
     path: "/rentals",
     router: RentalRoutes,
+  },
+  {
+    path: "/payment",
+    router: paymentRoutes,
+  },
+  {
+    path: "/reviews",
+    router: reviewRoutes,
+  },
+  {
+    path: "/coupons",
+    router: couponRoutes,
   },
 ];
 

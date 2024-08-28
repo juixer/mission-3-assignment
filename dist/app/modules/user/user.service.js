@@ -8,13 +8,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserServices = void 0;
-const http_status_1 = __importDefault(require("http-status"));
-const AppError_1 = __importDefault(require("../../errors/AppError"));
 const user_model_1 = require("./user.model");
 const getProfileFromDB = (token) => __awaiter(void 0, void 0, void 0, function* () {
     // destructuring email from the token
@@ -23,35 +18,59 @@ const getProfileFromDB = (token) => __awaiter(void 0, void 0, void 0, function* 
     const result = yield user_model_1.User.findOne({ email });
     return result;
 });
+const getAllUserFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    const email = query.email;
+    const uQuery = {};
+    if (email) {
+        uQuery.email = { $regex: new RegExp(email, 'i') };
+    }
+    // finding all users from DB and sort them by createdAt field in ascending order
+    const result = yield user_model_1.User.find(uQuery);
+    return result;
+});
 const updateProfileIntoDB = (token, body) => __awaiter(void 0, void 0, void 0, function* () {
     // destructuring email from the token
     const { email } = token;
     // destructuring name, phone, address, password, role from the body
-    const { name, phone, address, password, role } = body;
-    // user can not update password
-    if (password) {
-        throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "You can only update name, phone, address fields");
-    }
-    // user can not update role
-    if (role) {
-        throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "You can only update name, phone, address fields");
-    }
-    // user can not update email
-    if (body.email) {
-        throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "You can only update name, phone, address fields");
-    }
+    const { name, phone, address, profile_picture } = body;
     // finding the profile from DB and updating the name, phone, address fields
     const result = yield user_model_1.User.findOneAndUpdate({ email }, {
         name: name,
         phone: phone,
         address: address,
+        profile_picture: profile_picture,
     }, {
         new: true,
         runValidators: true,
     });
     return result;
 });
+// promote user to admin
+const userToAdminIntoDB = (email) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.User.findOneAndUpdate({ email: email }, { role: "admin" }, {
+        new: true,
+        runValidators: true,
+    });
+    return result;
+});
+// demote user to admin
+const adminToUserIntoDB = (email) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.User.findOneAndUpdate({ email: email }, { role: "user" }, {
+        new: true,
+        runValidators: true,
+    });
+    return result;
+});
+// demote user to admin
+const deleteUserFromDB = (email) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.User.findOneAndDelete({ email: email });
+    return result;
+});
 exports.UserServices = {
     getProfileFromDB,
     updateProfileIntoDB,
+    getAllUserFromDB,
+    userToAdminIntoDB,
+    adminToUserIntoDB,
+    deleteUserFromDB,
 };

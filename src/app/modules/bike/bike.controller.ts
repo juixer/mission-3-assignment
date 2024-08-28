@@ -17,15 +17,32 @@ const createBike = catchAsync(async (req, res) => {
 });
 
 const getAllBike = catchAsync(async (req, res) => {
+  const query = req.query;
   // retrieving all bikes from DB
-  const result = await BikeServices.getAllBikeFromDB();
+  const result = await BikeServices.getAllBikeFromDB(query);
 
   // sending response
   sendResponse(res, {
     // if there is no data in DB then show no data message and if there is data it will show data
-    statusCode: !result.length ? httpStatus.NOT_FOUND : httpStatus.OK,
-    success: !result.length ? false : true,
-    message: !result.length ? "No Data Found" : "Bikes retrieved successfully",
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Bikes retrieved successfully",
+    data: result,
+  });
+});
+
+const getSingleBike = catchAsync(async (req, res) => {
+  // destructuring id from request params
+  const { id } = req.params;
+
+  // updating bike information into DB
+  const result = await BikeServices.getSingleBikeFromDB(id);
+
+  // sending response
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Bike info retrieve successfully",
     data: result,
   });
 });
@@ -62,9 +79,59 @@ const deleteBike = catchAsync(async (req, res) => {
   });
 });
 
+const getBikeBrand = catchAsync(async (req, res) => {
+  const result = await BikeServices.getBikeBrandFromDB();
+  // sending response
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Bike brand retrieved successfully",
+    data: result,
+  });
+});
+
+const getAvailableBikes = catchAsync(async (req, res) => {
+  const query = req.query;
+  const result = await BikeServices.getAvailableBikesFromDB(query);
+  // sending response
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Available bikes retrieved successfully",
+    data: result,
+  });
+});
+
+const searchBikes = catchAsync(async (req, res) => {
+  const query = req.query;
+  const result = await BikeServices.searchTermBike(query);
+  // sending response
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "searched bikes retrieved successfully",
+    data: result,
+  });
+});
+
+const getMostBikes = catchAsync(async (req, res) => {
+  const result = await BikeServices.getMostRentedBikeFromDB();
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Most rented bike retrieved successfully",
+    data: result,
+  });
+});
+
 export const BikeControllers = {
   createBike,
   getAllBike,
   updateBike,
   deleteBike,
+  getBikeBrand,
+  getSingleBike,
+  getAvailableBikes,
+  getMostBikes,
+  searchBikes
 };

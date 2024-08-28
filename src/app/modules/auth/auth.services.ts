@@ -16,7 +16,15 @@ const createUserIntoDB = async (payload: IUser) => {
   }
 
   // create new user
-  const result = await User.create(payload);
+  const result = await User.create({
+    name: payload.name,
+    email: payload.email,
+    password: payload.password,
+    phone: payload.phone,
+    address: payload.address,
+    role: "user",
+    profile_picture: payload.profile_picture,
+  });
   return result;
 };
 
@@ -54,6 +62,7 @@ const loginUser = async (payload: ILogin) => {
     userData,
   };
 };
+
 
 export const AuthServices = {
   createUserIntoDB,

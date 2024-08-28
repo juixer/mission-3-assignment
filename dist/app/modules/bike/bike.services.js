@@ -21,9 +21,35 @@ const createBikeIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function
     const result = yield bike_model_1.Bike.create(payload);
     return result;
 });
-const getAllBikeFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
-    // getting all bike from DB and storing them which created recently
-    const result = yield bike_model_1.Bike.find().sort({ createdAt: -1 });
+const getAllBikeFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    const { name, brand } = query;
+    const bQuery = {};
+    if (name) {
+        bQuery.name = { $regex: new RegExp(name, "i") };
+    }
+    if (brand) {
+        bQuery.brand = { $regex: new RegExp(brand, "i") };
+    }
+    // finding all users from DB and sort them by createdAt field in ascending order
+    const result = yield bike_model_1.Bike.find(bQuery);
+    return result;
+});
+const getMostRentedBikeFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    // creating bike into DB
+    const result = yield bike_model_1.Bike.find({ isAvailable: true })
+        .sort({ rented: -1 })
+        .limit(6);
+    return result;
+});
+const getSingleBikeFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    // checking if bike exist
+    const isBikeExist = yield bike_model_1.Bike.isBikeExists(id);
+    // if bike does not exist then throw error
+    if (!isBikeExist) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "Bike does not exist");
+    }
+    // updating bike information into DB
+    const result = yield bike_model_1.Bike.findById(id);
     return result;
 });
 const updateBikeIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
@@ -48,9 +74,42 @@ const deleteBikeFromDB = (id) => __awaiter(void 0, void 0, void 0, function* () 
     const result = yield bike_model_1.Bike.findByIdAndDelete(id);
     return result;
 });
+const getBikeBrandFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = bike_model_1.Bike.find({}, { brand: 1, name: 1, _id: -1 });
+    return result;
+});
+const searchTermBike = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    const { searchTerm } = query;
+    const bQuery = { isAvailable: true };
+    if (searchTerm) {
+        bQuery.$or = [
+            { name: { $regex: new RegExp(searchTerm, "i") } },
+            { brand: { $regex: new RegExp(searchTerm, "i") } },
+        ];
+    }
+    const result = yield bike_model_1.Bike.find(bQuery);
+    return result;
+});
+const getAvailableBikesFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    const { name, brand } = query;
+    const bQuery = { isAvailable: true };
+    if (name) {
+        bQuery.name = { $regex: new RegExp(name, "i") };
+    }
+    if (brand) {
+        bQuery.brand = { $regex: new RegExp(brand, "i") };
+    }
+    const result = yield bike_model_1.Bike.find(bQuery);
+    return result;
+});
 exports.BikeServices = {
     createBikeIntoDB,
     getAllBikeFromDB,
     updateBikeIntoDB,
     deleteBikeFromDB,
+    getBikeBrandFromDB,
+    getSingleBikeFromDB,
+    getAvailableBikesFromDB,
+    getMostRentedBikeFromDB,
+    searchTermBike
 };

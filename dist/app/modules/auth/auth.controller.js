@@ -33,6 +33,11 @@ const logIn = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, 
     const result = yield auth_services_1.AuthServices.loginUser(req.body);
     // destructuring the user and token from return
     const { userData, accessToken } = result;
+    res.cookie("token", {
+        httpOnly: true,
+        sameSite: true,
+        maxAge: 1000 * 60 * 60 * 24 * 365,
+    });
     // sending response
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,

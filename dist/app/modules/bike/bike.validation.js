@@ -21,6 +21,7 @@ const createBikeValidationSchema = zod_1.z.object({
         brand: zod_1.z
             .string({ required_error: "Brand is required" })
             .min(1, "Enter Bike brand"),
+        image: zod_1.z.string({ required_error: "image is required" }),
     }),
 });
 // updating bike zod validation

@@ -26,7 +26,15 @@ const createUserIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function
         throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "User already exists");
     }
     // create new user
-    const result = yield user_model_1.User.create(payload);
+    const result = yield user_model_1.User.create({
+        name: payload.name,
+        email: payload.email,
+        password: payload.password,
+        phone: payload.phone,
+        address: payload.address,
+        role: "user",
+        profile_picture: payload.profile_picture,
+    });
     return result;
 });
 const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {

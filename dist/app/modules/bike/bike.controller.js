@@ -29,14 +29,28 @@ const createBike = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
     });
 }));
 const getAllBike = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const query = req.query;
     // retrieving all bikes from DB
-    const result = yield bike_services_1.BikeServices.getAllBikeFromDB();
+    const result = yield bike_services_1.BikeServices.getAllBikeFromDB(query);
     // sending response
     (0, sendResponse_1.default)(res, {
         // if there is no data in DB then show no data message and if there is data it will show data
-        statusCode: !result.length ? http_status_1.default.NOT_FOUND : http_status_1.default.OK,
-        success: !result.length ? false : true,
-        message: !result.length ? "No Data Found" : "Bikes retrieved successfully",
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Bikes retrieved successfully",
+        data: result,
+    });
+}));
+const getSingleBike = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // destructuring id from request params
+    const { id } = req.params;
+    // updating bike information into DB
+    const result = yield bike_services_1.BikeServices.getSingleBikeFromDB(id);
+    // sending response
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Bike info retrieve successfully",
         data: result,
     });
 }));
@@ -66,9 +80,55 @@ const deleteBike = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
         data: result,
     });
 }));
+const getBikeBrand = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield bike_services_1.BikeServices.getBikeBrandFromDB();
+    // sending response
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Bike brand retrieved successfully",
+        data: result,
+    });
+}));
+const getAvailableBikes = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const query = req.query;
+    const result = yield bike_services_1.BikeServices.getAvailableBikesFromDB(query);
+    // sending response
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Available bikes retrieved successfully",
+        data: result,
+    });
+}));
+const searchBikes = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const query = req.query;
+    const result = yield bike_services_1.BikeServices.searchTermBike(query);
+    // sending response
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "searched bikes retrieved successfully",
+        data: result,
+    });
+}));
+const getMostBikes = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield bike_services_1.BikeServices.getMostRentedBikeFromDB();
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Most rented bike retrieved successfully",
+        data: result,
+    });
+}));
 exports.BikeControllers = {
     createBike,
     getAllBike,
     updateBike,
     deleteBike,
+    getBikeBrand,
+    getSingleBike,
+    getAvailableBikes,
+    getMostBikes,
+    searchBikes
 };

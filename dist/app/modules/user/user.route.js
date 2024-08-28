@@ -11,7 +11,13 @@ const user_validation_1 = require("./user.validation");
 const auth_1 = __importDefault(require("../../middleware/auth"));
 const router = express_1.default.Router();
 // get profile information
-router.get("/me", (0, auth_1.default)("admin", "user"), user_controller_1.UserController.getProfile);
+router.get("/me", (0, auth_1.default)("admin", "user", "superAdmin"), user_controller_1.UserController.getProfile);
 // update profile information
-router.put("/me", (0, auth_1.default)("admin", "user"), (0, validateRequest_1.default)(user_validation_1.UserValidation.updateUserValidationSchema), user_controller_1.UserController.updateProfile);
+router.put("/me", (0, auth_1.default)("admin", "user", "superAdmin"), (0, validateRequest_1.default)(user_validation_1.UserValidation.updateUserValidationSchema), user_controller_1.UserController.updateProfile);
+// getting all users
+router.get("/all-users", (0, auth_1.default)("admin", "superAdmin"), user_controller_1.UserController.getAllUsers);
+// promote to admin
+router.put("/promote/:email", (0, auth_1.default)("admin", "superAdmin"), user_controller_1.UserController.userToAdmin);
+router.put("/demote/:email", (0, auth_1.default)("admin", "superAdmin"), user_controller_1.UserController.adminToUser);
+router.delete("/delete/:email", (0, auth_1.default)("admin", "superAdmin"), user_controller_1.UserController.deleteUser);
 exports.UserRoutes = router;

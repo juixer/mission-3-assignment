@@ -28,10 +28,14 @@ const userSchema = new Schema<IUser, UserModel>(
       type: String,
       required: true,
     },
-    role: {
+    role:{
       type: String,
       default: "user",
     },
+    profile_picture: {
+      type: String,
+      default: "https://i.ibb.co/Xjjd68g/default-user.jpg",
+    }
   },
   {
     timestamps: true,
@@ -40,8 +44,7 @@ const userSchema = new Schema<IUser, UserModel>(
 
 // pre hook from password hashing
 userSchema.pre("save", async function (next) {
-  const user = this;
-  user.password = await bcrypt.hash(user.password, Number(config.bcrypt_salt));
+  this.password = await bcrypt.hash(this.password, Number(config.bcrypt_salt));
   next();
 });
 

@@ -11,9 +11,13 @@ const rental_validation_1 = require("./rental.validation");
 const rental_controller_1 = require("./rental.controller");
 const router = express_1.default.Router();
 // create rental route which can be used by admin , user
-router.post("/", (0, auth_1.default)("admin", "user"), (0, validateRequest_1.default)(rental_validation_1.RentalValidation.createRentalValidationSchema), rental_controller_1.RentalControllers.createRental);
+router.post("/", (0, auth_1.default)("admin", "user", "superAdmin"), (0, validateRequest_1.default)(rental_validation_1.RentalValidation.createRentalValidationSchema), rental_controller_1.RentalControllers.createRental);
 // returning bike route which updates rental information can be used by admin
-router.put("/:id/return", (0, auth_1.default)("admin"), rental_controller_1.RentalControllers.returnBike);
+router.put("/:id/return", (0, auth_1.default)("admin", "superAdmin"), rental_controller_1.RentalControllers.returnBike);
 // rentals bike route for user/admin
-router.get("/", (0, auth_1.default)("admin", "user"), rental_controller_1.RentalControllers.getAllRentals);
+router.get("/", (0, auth_1.default)("admin", "user", "superAdmin"), rental_controller_1.RentalControllers.getAllRentalsOfUsers);
+//get all rentals bike route for admin
+router.get("/all-rentals", (0, auth_1.default)("admin", "superAdmin"), rental_controller_1.RentalControllers.getAllRentals);
+router.put('/:id/coupon', (0, auth_1.default)("admin", "user", "superAdmin"), rental_controller_1.RentalControllers.userPayForRent);
+router.put('/:id/payment', (0, auth_1.default)("admin", "user", "superAdmin"), rental_controller_1.RentalControllers.userPayForRental);
 exports.RentalRoutes = router;

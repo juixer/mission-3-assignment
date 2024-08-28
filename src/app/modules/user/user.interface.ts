@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
 import { Model } from "mongoose";
 
 // role interface
-export type TRole = "admin" | "user";
+export type TRole = "admin" | "user" | "superAdmin";
 
 // user interface
 export interface IUser {
@@ -11,6 +12,7 @@ export interface IUser {
   phone: string;
   address: string;
   role: TRole;
+  profile_picture: string;
 }
 
 // extending user interface for using statics methods

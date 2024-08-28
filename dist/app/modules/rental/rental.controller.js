@@ -32,7 +32,7 @@ const returnBike = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
     // destructuring id from params
     const { id } = req.params;
     // updating the rental status into DB
-    const result = yield rental_services_1.RentalServices.returnBikeWhichUpdateDB(id);
+    const result = yield rental_services_1.RentalServices.returnBikeWhichUpdateDB(id, req.body);
     // sending response
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
@@ -41,22 +41,57 @@ const returnBike = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
         data: result,
     });
 }));
-const getAllRentals = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllRentalsOfUsers = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // getting all the rentals of the user from DB
-    const result = yield rental_services_1.RentalServices.getAllRentalsOfUsers(req.user);
+    const result = yield rental_services_1.RentalServices.getAllRentalsOfUsersFromDB(req.user);
     // sending response
     (0, sendResponse_1.default)(res, {
-        // if there is no data in DB then show no data message and if there is data it will show data
-        statusCode: !result.length ? http_status_1.default.NOT_FOUND : http_status_1.default.OK,
-        success: !result.length ? false : true,
-        message: !result.length
-            ? "No Data Found"
-            : "Rentals retrieved successfully",
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Rentals retrieved successfully",
+        data: result,
+    });
+}));
+const getAllRentals = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // getting all the rentals of the user from DB
+    const result = yield rental_services_1.RentalServices.getAllRentalsFromDB();
+    // sending response
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Rentals retrieved successfully",
+        data: result,
+    });
+}));
+const userPayForRent = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // destructuring id from params
+    const { id } = req.params;
+    const result = yield rental_services_1.RentalServices.userPayForRent(id, req.query);
+    // sending response
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Payment process ongoing",
+        data: result,
+    });
+}));
+const userPayForRental = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // destructuring id from params
+    const { id } = req.params;
+    const result = yield rental_services_1.RentalServices.userPayForRental(id);
+    // sending response
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Payment process ongoing",
         data: result,
     });
 }));
 exports.RentalControllers = {
     createRental,
     returnBike,
+    getAllRentalsOfUsers,
     getAllRentals,
+    userPayForRent,
+    userPayForRental
 };

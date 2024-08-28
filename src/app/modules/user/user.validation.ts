@@ -19,7 +19,7 @@ const createUserValidationSchema = z.object({
     address: z
       .string({ required_error: "Address is required" })
       .min(1, "Please enter your address"),
-    role: z.enum(["admin", "user"]).optional().default("user"),
+    profile_picture: z.string().optional(),
   }),
 });
 
@@ -29,10 +29,11 @@ const updateUserValidationSchema = z.object({
     name: z.string().optional(),
     phone: z.string().optional(),
     address: z.string().optional(),
+    profile_picture: z.string().optional(),
   }),
 });
 
 export const UserValidation = {
   createUserValidationSchema,
-  updateUserValidationSchema
+  updateUserValidationSchema,
 };

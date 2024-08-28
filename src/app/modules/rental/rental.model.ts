@@ -30,6 +30,20 @@ const rentalSchema = new Schema<IRental>(
       type: Boolean,
       default: false,
     },
+    advance_payment: {
+      type: Boolean,
+      default: false,
+    },
+    payment_status: {
+      type: String,
+      default: "pending",
+    },
+    transaction_Id: {
+      type: String,
+    },
+    advance_transaction_Id: {
+      type: String,
+    },
   },
   {
     timestamps: true,

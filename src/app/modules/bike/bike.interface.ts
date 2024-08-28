@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Model, Types } from "mongoose";
 
 // bike interface
@@ -10,6 +11,8 @@ export interface IBike {
   year: number;
   model: string;
   brand: string;
+  image: string;
+  rented: number;
 }
 
 // extending bike interface for using statics methods

@@ -22,7 +22,11 @@ const logIn = catchAsync(async (req, res) => {
 
   // destructuring the user and token from return
   const { userData, accessToken } = result;
-
+  res.cookie("token", {
+    httpOnly: true,
+    sameSite: true,
+    maxAge: 1000 * 60 * 60 * 24 * 365,
+  });
   // sending response
   sendResponse(res, {
     statusCode: httpStatus.OK,

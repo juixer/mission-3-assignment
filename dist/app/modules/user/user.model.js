@@ -44,14 +44,17 @@ const userSchema = new mongoose_1.Schema({
         type: String,
         default: "user",
     },
+    profile_picture: {
+        type: String,
+        default: "https://i.ibb.co/Xjjd68g/default-user.jpg",
+    }
 }, {
     timestamps: true,
 });
 // pre hook from password hashing
 userSchema.pre("save", function (next) {
     return __awaiter(this, void 0, void 0, function* () {
-        const user = this;
-        user.password = yield bcrypt_1.default.hash(user.password, Number(config_1.default.bcrypt_salt));
+        this.password = yield bcrypt_1.default.hash(this.password, Number(config_1.default.bcrypt_salt));
         next();
     });
 });

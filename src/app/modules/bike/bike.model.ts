@@ -36,6 +36,14 @@ const bikeSchema = new Schema<IBike, BikeModel>(
       type: String,
       required: true,
     },
+    image:{
+      type: String,
+      required: true,
+    },
+    rented: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,

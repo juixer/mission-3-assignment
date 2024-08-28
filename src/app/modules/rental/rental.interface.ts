@@ -8,4 +8,8 @@ export interface IRental {
   returnTime: Date;
   totalCost: number;
   isReturned: boolean;
+  advance_payment: boolean;
+  payment_status: string;
+  transaction_Id: string;
+  advance_transaction_Id: string;
 }

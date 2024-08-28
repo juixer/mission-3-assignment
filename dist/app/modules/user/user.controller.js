@@ -28,6 +28,18 @@ const getProfile = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
         data: result,
     });
 }));
+const getAllUsers = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const query = req.query;
+    // getting all users from database
+    const result = yield user_service_1.UserServices.getAllUserFromDB(query);
+    // sending response
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "All Users retrieved successfully",
+        data: result,
+    });
+}));
 const updateProfile = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // updating user profile information into database
     const result = yield user_service_1.UserServices.updateProfileIntoDB(req.user, req.body);
@@ -39,7 +51,47 @@ const updateProfile = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, 
         data: result,
     });
 }));
+const userToAdmin = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // updating user profile information into database
+    const email = req.params.email;
+    const result = yield user_service_1.UserServices.userToAdminIntoDB(email);
+    // sending response
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "User has been promoted to admin",
+        data: result,
+    });
+}));
+const adminToUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // updating user profile information into database
+    const email = req.params.email;
+    const result = yield user_service_1.UserServices.adminToUserIntoDB(email);
+    // sending response
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Admin has been demoted to user",
+        data: result,
+    });
+}));
+const deleteUser = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // deleting user profile information into database
+    const email = req.params.email;
+    const result = yield user_service_1.UserServices.deleteUserFromDB(email);
+    // sending response
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "User deleted successfully",
+        data: result,
+    });
+}));
 exports.UserController = {
     getProfile,
     updateProfile,
+    getAllUsers,
+    adminToUser,
+    userToAdmin,
+    deleteUser,
 };

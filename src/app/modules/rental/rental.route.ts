@@ -9,15 +9,23 @@ const router = express.Router();
 // create rental route which can be used by admin , user
 router.post(
   "/",
-  auth("admin", "user"),
+  auth("admin", "user", "superAdmin"),
   validateRequest(RentalValidation.createRentalValidationSchema),
   RentalControllers.createRental
 );
 
 // returning bike route which updates rental information can be used by admin
-router.put("/:id/return", auth("admin"), RentalControllers.returnBike);
+router.put("/:id/return", auth("admin", "superAdmin"), RentalControllers.returnBike);
 
 // rentals bike route for user/admin
-router.get("/", auth("admin", "user"), RentalControllers.getAllRentals);
+router.get("/", auth("admin", "user", "superAdmin"), RentalControllers.getAllRentalsOfUsers);
+
+//get all rentals bike route for admin
+router.get("/all-rentals", auth("admin","superAdmin"), RentalControllers.getAllRentals);
+
+router.put('/:id/coupon',auth("admin","user","superAdmin"), RentalControllers.userPayForRent)
+router.put('/:id/payment',auth("admin","user","superAdmin"), RentalControllers.userPayForRental)
+
+
 
 export const RentalRoutes = router;

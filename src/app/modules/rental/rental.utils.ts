@@ -3,7 +3,7 @@ import AppError from "../../errors/AppError";
 
 export const calculateTotalCost = (
   start: Date,
-  current: Date,
+  current: string,
   pricePerHour: number
 ) => {
 
