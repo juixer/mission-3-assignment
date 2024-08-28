@@ -19,6 +19,12 @@ Welcome to the Bike Breeze. This project is designed to provide a seamless and e
 - Create Rental
 - Return Bike (Admin Only)
 - Get All Rentals for User
+- Write Review
+- Create Coupon
+- Apply Coupon
+- Contact Us Email Sent
+- Payment Option
+- Update User Role
 
 ## Installation
 
