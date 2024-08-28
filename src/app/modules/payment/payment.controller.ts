@@ -7,9 +7,9 @@ const confirmationAdvanceController = catchAsync(async (req, res) => {
   );
 
   if (req.query.status === "success") {
-    res.redirect("http://localhost:5173/payment-successful");
+    res.redirect("https://bike-breeze-frontend.vercel.app/payment-successful");
   } else if (req.query.status === "failed") {
-    res.redirect("http://localhost:5173/payment-failed");
+    res.redirect("https://bike-breeze-frontend.vercel.app/payment-failed");
   }
 });
 
@@ -19,9 +19,9 @@ const confirmationPaymentController = catchAsync(async (req, res) => {
   );
 
   if (req.query.status === "success") {
-    res.redirect("http://localhost:5173/payment-successful");
+    res.redirect("https://bike-breeze-frontend.vercel.app/payment-successful");
   } else if (req.query.status === "failed") {
-    res.redirect("http://localhost:5173/payment-failed");
+    res.redirect("https://bike-breeze-frontend.vercel.app/payment-failed");
   }
 });
 

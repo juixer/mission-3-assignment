@@ -18,19 +18,19 @@ const payment_service_1 = require("./payment.service");
 const confirmationAdvanceController = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield payment_service_1.paymentServices.confirmationAdvanceService(req.query.transactionId);
     if (req.query.status === "success") {
-        res.redirect("http://localhost:5173/payment-successful");
+        res.redirect("https://bike-breeze-frontend.vercel.app/payment-successful");
     }
     else if (req.query.status === "failed") {
-        res.redirect("http://localhost:5173/payment-failed");
+        res.redirect("https://bike-breeze-frontend.vercel.app/payment-failed");
     }
 }));
 const confirmationPaymentController = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield payment_service_1.paymentServices.confirmationPaymentService(req.query.transactionId, req.query.coupon);
     if (req.query.status === "success") {
-        res.redirect("http://localhost:5173/payment-successful");
+        res.redirect("https://bike-breeze-frontend.vercel.app/payment-successful");
     }
     else if (req.query.status === "failed") {
-        res.redirect("http://localhost:5173/payment-failed");
+        res.redirect("https://bike-breeze-frontend.vercel.app/payment-failed");
     }
 }));
 exports.paymentController = {
